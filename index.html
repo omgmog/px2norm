@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Real Pixel to Normalized Number Tool</title>
+	<style>
+		 *{ 
+			box-sizing: border-box;
+			}
+		html,body {
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: sans-serif;
+			background: #eee;
+		}
+		form {
+			width: 440px;
+			margin: auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			padding: 20px;
+			background: #fff;
+			box-shadow: 0 4px 12px rgba(0,0,0,.1);
+		}
+		input {
+			margin: 1%;
+			flex: 0 1;
+			flex-basis: 45%;
+			text-align: center;
+			border-style: solid;
+		}
+		button {
+			margin: 1%;
+			flex: 0 1;
+			flex-basis: 25%;
+		}
+		a {
+			color: #1d9bf3;
+		}
+		#calc {
+			flex-basis: 65%;
+		}
+
+		#parentWidth {
+			border-color: #00fec5;
+		}
+		#parentHeight {
+			border-color: #1d9bf3;
+		}
+		#realX {
+			border-color: #ff5130;
+		}
+		#realY {
+			border-color: #ffae00;
+		}
+		#example {
+			width: 400px;
+			height: 225px;
+			background: #fafafa;
+			margin-bottom: 1em;
+			position: relative;
+		}
+		#example div {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.w {
+			width: 100%;
+			height: 2px;
+			background-color: #00fec5;
+		}
+		.h {
+			width: 2px;
+			height: 100%;
+			background-color: #1d9bf3;
+		}
+		#point {
+			width: 4px;
+			height: 4px;
+			transform: translateX(-2px) translateY(-2px);
+			left: 50%;
+			top: 50%;
+			background-color: #000;
+		}
+		#xline {
+			background-color: #ff5130;
+			height: 2px;
+			transform: translateY(-1px);
+			left: 0;
+		}
+		#yline {
+			background-color: #ffae00;
+			width: 2px;
+			transform: translateX(-1px);
+			top: 0;
+		}
+		h3 {
+			flex-basis: 100%;
+			margin: 0;
+			padding: 0;
+			font-size: 1em;
+			text-align: center;
+			text-transform: uppercase;
+			color: #aaa;
+		}
+		p {
+			color: #888;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<div id="example">
+			<div class="w"></div>
+			<div class="h"></div>
+			<div id="point"></div>
+			<div id="xline"></div>
+			<div id="yline"></div>
+		</div>
+		<h3>Edit these</h3>
+		<input type="text" id="parentWidth" placeholder="Parent Width" value="1920">
+		<input type="text" id="parentHeight" placeholder="Parent Height" value="1080"><br>
+		<input type="text" id="realX" placeholder="Real X">
+		<input type="text" id="realY" placeholder="Real Y">
+		<br>
+		<br>
+		<h3>Copy these</h3>
+		<input type="text" id="targetX">
+		<input type="text" id="targetY">
+		<br>
+		<button id="reset" type="reset">Reset</button>
+		<button id="calc">Calculate</button>
+		<p>Enter your X/Y value, hit the "Calculate" button, it'll give you some floats to use as a <em>NORMALIZED_PAIR</em>.</p>
+		<p>
+			This is only really useful if you want to work out where to position things when creating themes for <a href="https://github.com/RetroPie/EmulationStation/blob/master/THEMES.md" target="_blank">Emulation Station</a>. For example translating real pixel values from a .psd file to the crazy 0..1 based positioning that Emulation Station uses.
+		</p>
+		<p>This tool was brought to you by <a href="https://omgmog.net">@omgmog</a>.</p>
+	</form>
+	<script>
+		calc.onclick = function (e) {
+			e.preventDefault();
+			pw = parentWidth.value || 0;
+			ph = parentHeight.value || 0;
+			rx = realX.value || 0;
+			ry = realY.value || 0;
+
+			xval = (1 / pw) * rx;
+			xval_p = xval * 100 + "%";
+			yval = (1 / ph) * ry;
+			yval_p = yval * 100 + "%";
+
+			targetX.value = xval;
+			targetY.value = yval;
+
+			point.style.left = xval_p;
+			point.style.top = yval_p;
+
+			xline.style.top = yval_p;
+			xline.style.width = xval_p;
+
+			yline.style.left = xval_p;
+			yline.style.height = yval_p;
+		}
+
+
+	</script>
+</body>
+</html>
